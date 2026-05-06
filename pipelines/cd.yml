@@ -33,13 +33,13 @@ stages:
             parameters:
               environment: "dev"
               workingDirectory: "$(System.DefaultWorkingDirectory)/infra/environments/dev"
-              serviceConnection: "sc-foundry-dev"
+              serviceConnection: "sp-foundry-dev"
 
           - template: .templates/terraform-plan.yml
             parameters:
               environment: "dev"
               workingDirectory: "$(System.DefaultWorkingDirectory)/infra/environments/dev"
-              serviceConnection: "sc-foundry-dev"
+              serviceConnection: "sp-foundry-dev"
 
   - stage: Deploy_Dev
     displayName: "Deploy (Dev)"
@@ -59,13 +59,13 @@ stages:
                   parameters:
                     environment: "dev"
                     workingDirectory: "$(System.DefaultWorkingDirectory)/infra/environments/dev"
-                    serviceConnection: "sc-foundry-dev"
+                    serviceConnection: "sp-foundry-dev"
 
                 - template: .templates/terraform-apply.yml
                   parameters:
                     environment: "dev"
                     workingDirectory: "$(System.DefaultWorkingDirectory)/infra/environments/dev"
-                    serviceConnection: "sc-foundry-dev"
+                    serviceConnection: "sp-foundry-dev"
 
   # ============================================================
   # STAGING - Auto deploy after Dev success
@@ -83,13 +83,13 @@ stages:
             parameters:
               environment: "staging"
               workingDirectory: "$(System.DefaultWorkingDirectory)/infra/environments/staging"
-              serviceConnection: "sc-foundry-staging"
+              serviceConnection: "sp-foundry-staging"
 
           - template: .templates/terraform-plan.yml
             parameters:
               environment: "staging"
               workingDirectory: "$(System.DefaultWorkingDirectory)/infra/environments/staging"
-              serviceConnection: "sc-foundry-staging"
+              serviceConnection: "sp-foundry-staging"
 
   - stage: Deploy_Staging
     displayName: "Deploy (Staging)"
@@ -109,13 +109,13 @@ stages:
                   parameters:
                     environment: "staging"
                     workingDirectory: "$(System.DefaultWorkingDirectory)/infra/environments/staging"
-                    serviceConnection: "sc-foundry-staging"
+                    serviceConnection: "sp-foundry-staging"
 
                 - template: .templates/terraform-apply.yml
                   parameters:
                     environment: "staging"
                     workingDirectory: "$(System.DefaultWorkingDirectory)/infra/environments/staging"
-                    serviceConnection: "sc-foundry-staging"
+                    serviceConnection: "sp-foundry-staging"
 
   # ============================================================
   # PROD - Manual approval required
@@ -133,13 +133,13 @@ stages:
             parameters:
               environment: "prod"
               workingDirectory: "$(System.DefaultWorkingDirectory)/infra/environments/prod"
-              serviceConnection: "sc-foundry-prod"
+              serviceConnection: "sp-foundry-prod"
 
           - template: .templates/terraform-plan.yml
             parameters:
               environment: "prod"
               workingDirectory: "$(System.DefaultWorkingDirectory)/infra/environments/prod"
-              serviceConnection: "sc-foundry-prod"
+              serviceConnection: "sp-foundry-prod"
 
   - stage: Deploy_Prod
     displayName: "Deploy (Prod)"
@@ -160,10 +160,10 @@ stages:
                   parameters:
                     environment: "prod"
                     workingDirectory: "$(System.DefaultWorkingDirectory)/infra/environments/prod"
-                    serviceConnection: "sc-foundry-prod"
+                    serviceConnection: "sp-foundry-prod"
 
                 - template: .templates/terraform-apply.yml
                   parameters:
                     environment: "prod"
                     workingDirectory: "$(System.DefaultWorkingDirectory)/infra/environments/prod"
-                    serviceConnection: "sc-foundry-prod"
+                    serviceConnection: "sp-foundry-prod"
