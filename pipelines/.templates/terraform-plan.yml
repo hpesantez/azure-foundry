@@ -7,14 +7,16 @@ parameters:
     type: string
 
 steps:
-  - task: TerraformTaskV4@4
+  - task: AzureCLI@2
     displayName: "Terraform Plan (${{ parameters.environment }})"
     inputs:
-      provider: "azurerm"
-      command: "plan"
+      azureSubscription: "${{ parameters.serviceConnection }}"
+      scriptType: "bash"
+      scriptLocation: "inlineScript"
       workingDirectory: "${{ parameters.workingDirectory }}"
-      environmentServiceNameAzureRM: "${{ parameters.serviceConnection }}"
-      commandOptions: "-out=tfplan"
+      inlineScript: |
+        set -euo pipefail
+        terraform plan -out=tfplan
 
   - task: PublishPipelineArtifact@1
     displayName: "Publish Plan Artifact"

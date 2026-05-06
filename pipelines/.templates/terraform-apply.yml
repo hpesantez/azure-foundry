@@ -13,11 +13,13 @@ steps:
       artifactName: "tfplan-${{ parameters.environment }}"
       targetPath: "${{ parameters.workingDirectory }}"
 
-  - task: TerraformTaskV4@4
+  - task: AzureCLI@2
     displayName: "Terraform Apply (${{ parameters.environment }})"
     inputs:
-      provider: "azurerm"
-      command: "apply"
+      azureSubscription: "${{ parameters.serviceConnection }}"
+      scriptType: "bash"
+      scriptLocation: "inlineScript"
       workingDirectory: "${{ parameters.workingDirectory }}"
-      environmentServiceNameAzureRM: "${{ parameters.serviceConnection }}"
-      commandOptions: "tfplan"
+      inlineScript: |
+        set -euo pipefail
+        terraform apply -auto-approve tfplan

@@ -5,6 +5,13 @@
 1. Azure DevOps organization and project
 2. Azure subscription(s) for each environment
 3. Permissions to create Service Connections and Environments
+4. Microsoft-hosted Ubuntu agent or self-hosted agent with `bash`, `az`, and network access to install Terraform
+
+### Pipeline Task Compatibility
+
+This repository uses built-in Azure DevOps tasks (`AzureCLI@2`, `PublishPipelineArtifact@1`, and `DownloadPipelineArtifact@2`) plus Terraform CLI commands.
+
+No Terraform marketplace extension is required.
 
 ## Step 1: Create Service Connections
 
@@ -82,6 +89,8 @@ Navigate to: Pipelines > Library > + Variable group
 4. Create two pipelines:
    - **CI Pipeline**: Select `pipelines/ci.yml`
    - **CD Pipeline**: Select `pipelines/cd.yml`
+
+These pipelines install Terraform on the agent when needed and execute `terraform init/validate/plan/apply` via Azure CLI-authenticated bash steps.
 
 ## Step 5: Branch Policies
 

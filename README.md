@@ -71,6 +71,9 @@ terraform apply tfplan
 
 ## CI/CD Pipeline
 
+Pipelines use built-in Azure DevOps tasks and Terraform CLI executed from bash scripts through Azure CLI authentication.
+No Terraform marketplace extension is required.
+
 The Azure DevOps pipeline handles:
 
 1. **Validate** - `terraform fmt -check` + `terraform validate`
