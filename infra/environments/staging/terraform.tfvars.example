@@ -1,8 +1,0 @@
-subscription_id = "YOUR_SUBSCRIPTION_ID"
-location        = "eastus2"
-environment     = "staging"
-project_name    = "foundry"
-
-tags = {
-  owner = "platform-team"
-}

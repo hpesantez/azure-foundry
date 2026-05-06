@@ -43,6 +43,8 @@ stages:
   - stage: Plan_Dev
     displayName: "Plan (Dev)"
     dependsOn: Validate
+    variables:
+      - group: foundry-dev
     jobs:
       - job: Plan
         displayName: "Terraform Plan - Dev"

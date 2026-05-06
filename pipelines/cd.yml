@@ -23,6 +23,8 @@ stages:
   # ============================================================
   - stage: Plan_Dev
     displayName: "Plan (Dev)"
+    variables:
+      - group: foundry-dev
     jobs:
       - job: Plan
         displayName: "Terraform Plan - Dev"
@@ -42,6 +44,8 @@ stages:
   - stage: Deploy_Dev
     displayName: "Deploy (Dev)"
     dependsOn: Plan_Dev
+    variables:
+      - group: foundry-dev
     jobs:
       - deployment: Apply
         displayName: "Terraform Apply - Dev"
@@ -69,6 +73,8 @@ stages:
   - stage: Plan_Staging
     displayName: "Plan (Staging)"
     dependsOn: Deploy_Dev
+    variables:
+      - group: foundry-staging
     jobs:
       - job: Plan
         displayName: "Terraform Plan - Staging"
@@ -88,6 +94,8 @@ stages:
   - stage: Deploy_Staging
     displayName: "Deploy (Staging)"
     dependsOn: Plan_Staging
+    variables:
+      - group: foundry-staging
     jobs:
       - deployment: Apply
         displayName: "Terraform Apply - Staging"
@@ -115,6 +123,8 @@ stages:
   - stage: Plan_Prod
     displayName: "Plan (Prod)"
     dependsOn: Deploy_Staging
+    variables:
+      - group: foundry-prod
     jobs:
       - job: Plan
         displayName: "Terraform Plan - Prod"
@@ -134,6 +144,8 @@ stages:
   - stage: Deploy_Prod
     displayName: "Deploy (Prod)"
     dependsOn: Plan_Prod
+    variables:
+      - group: foundry-prod
     jobs:
       - deployment: Apply
         displayName: "Terraform Apply - Prod"

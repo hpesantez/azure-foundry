@@ -14,7 +14,7 @@ steps:
       command: "plan"
       workingDirectory: "${{ parameters.workingDirectory }}"
       environmentServiceNameAzureRM: "${{ parameters.serviceConnection }}"
-      commandOptions: "-out=tfplan -var-file=terraform.tfvars"
+      commandOptions: "-out=tfplan"
 
   - task: PublishPipelineArtifact@1
     displayName: "Publish Plan Artifact"

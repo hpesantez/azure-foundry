@@ -40,15 +40,39 @@ Navigate to: Pipelines > Environments > New Environment
 For each environment, add checks:
 - Approvals and Checks > Approvals > Add approvers
 
-## Step 3: Create Variable Group
+## Step 3: Create Variable Groups
 
-Create a variable group named `foundry-common`:
+Terraform variables are passed via `TF_VAR_` environment variables from Azure DevOps variable groups. **No `terraform.tfvars` files are committed.**
+
+### `foundry-common` (shared across all environments)
 
 | Variable | Value | Secret? |
 |----------|-------|---------|
-| `TF_VERSION` | `1.5.0` | No |
+| `TF_VAR_project_name` | `foundry` | No |
+| `TF_VAR_location` | `eastus2` | No |
 
-Per-environment variables are managed in `terraform.tfvars` files (not in DevOps).
+### `foundry-dev`
+
+| Variable | Value | Secret? |
+|----------|-------|---------|
+| `TF_VAR_subscription_id` | `<your-dev-subscription-id>` | Yes |
+| `TF_VAR_environment` | `dev` | No |
+
+### `foundry-staging`
+
+| Variable | Value | Secret? |
+|----------|-------|---------|
+| `TF_VAR_subscription_id` | `<your-staging-subscription-id>` | Yes |
+| `TF_VAR_environment` | `staging` | No |
+
+### `foundry-prod`
+
+| Variable | Value | Secret? |
+|----------|-------|---------|
+| `TF_VAR_subscription_id` | `<your-prod-subscription-id>` | Yes |
+| `TF_VAR_environment` | `prod` | No |
+
+Navigate to: Pipelines > Library > + Variable group
 
 ## Step 4: Create Pipelines
 
