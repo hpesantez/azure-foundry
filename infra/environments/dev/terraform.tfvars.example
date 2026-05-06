@@ -1,0 +1,8 @@
+subscription_id = "YOUR_SUBSCRIPTION_ID"
+location        = "eastus2"
+environment     = "dev"
+project_name    = "foundry"
+
+tags = {
+  owner = "platform-team"
+}

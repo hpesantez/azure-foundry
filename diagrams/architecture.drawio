@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-05-05" agent="Claude" version="21.0.0" type="device">
+  <diagram id="azure-foundry-architecture" name="Azure AI Foundry Landing Zone">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="title" value="Azure AI Foundry - Landing Zone Architecture" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="500" y="20" width="600" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Azure DevOps Section -->
+        <mxCell id="devops-container" value="Azure DevOps" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;verticalAlign=top;fontStyle=1;fontSize=14;arcSize=5;" vertex="1" parent="1">
+          <mxGeometry x="100" y="80" width="1400" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="pipeline-ci" value="CI Pipeline&#xa;(Validate + Plan)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="150" y="120" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="pipeline-cd" value="CD Pipeline&#xa;(Apply)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="370" y="120" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="env-dev" value="Dev Environment&#xa;(Auto Deploy)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="590" y="120" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="env-staging" value="Staging Environment&#xa;(Auto after Dev)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="810" y="120" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="env-prod" value="Prod Environment&#xa;(Manual Approval)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="1030" y="120" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="svc-principal" value="Service Principal&#xa;(OIDC Federation)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="1250" y="120" width="160" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Flow arrows in DevOps -->
+        <mxCell id="arrow1" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="pipeline-ci" target="pipeline-cd" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow2" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="pipeline-cd" target="env-dev" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow3" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="env-dev" target="env-staging" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow4" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="env-staging" target="env-prod" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Azure Subscription -->
+        <mxCell id="subscription" value="Azure Subscription" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;verticalAlign=top;fontStyle=1;fontSize=14;arcSize=3;" vertex="1" parent="1">
+          <mxGeometry x="100" y="280" width="1400" height="860" as="geometry" />
+        </mxCell>
+
+        <!-- Resource Group: Main -->
+        <mxCell id="rg-main" value="Resource Group: rg-foundry-{env}" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;verticalAlign=top;fontStyle=1;fontSize=12;arcSize=3;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="130" y="320" width="1340" height="780" as="geometry" />
+        </mxCell>
+
+        <!-- AI Foundry Hub Section -->
+        <mxCell id="hub-container" value="Azure AI Foundry Hub" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;verticalAlign=top;fontStyle=1;fontSize=12;arcSize=5;" vertex="1" parent="1">
+          <mxGeometry x="160" y="360" width="600" height="700" as="geometry" />
+        </mxCell>
+
+        <!-- AI Project -->
+        <mxCell id="ai-project" value="AI Project: aiprj-foundry-{env}" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;verticalAlign=top;fontStyle=1;fontSize=11;arcSize=5;" vertex="1" parent="1">
+          <mxGeometry x="190" y="400" width="540" height="630" as="geometry" />
+        </mxCell>
+
+        <!-- Agent Framework -->
+        <mxCell id="agent-framework" value="Agent Framework" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;verticalAlign=top;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="220" y="440" width="480" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="a2a" value="A2A&#xa;(Agent-to-Agent)&#xa;Multi-agent&#xa;orchestration" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="240" y="480" width="140" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="a2ui" value="A2UI&#xa;(Agent-to-UI)&#xa;User-facing&#xa;interactions" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="400" y="480" width="140" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="agent-tools" value="Agent Tools&#xa;&amp; Functions" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="560" y="480" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="agent-state" value="Agent State &amp; Memory" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="240" y="575" width="440" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Connections -->
+        <mxCell id="connections" value="Connections" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;verticalAlign=top;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="220" y="660" width="480" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="conn-teams" value="Microsoft&#xa;Teams" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="240" y="695" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="conn-email" value="Email&#xa;(Outlook)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="360" y="695" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="conn-custom" value="Custom&#xa;APIs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="480" y="695" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="conn-search" value="AI Search" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="600" y="695" width="80" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Model Deployments -->
+        <mxCell id="models" value="Model Deployments" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;verticalAlign=top;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="220" y="780" width="480" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="model-gpt4" value="GPT-4o" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="240" y="810" width="90" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="model-gpt4mini" value="GPT-4o-mini" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="350" y="810" width="90" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="model-embed" value="Embeddings" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="460" y="810" width="90" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="model-future" value="+ Future&#xa;Models" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="570" y="810" width="90" height="35" as="geometry" />
+        </mxCell>
+
+        <!-- Supporting Services -->
+        <mxCell id="services-container" value="Supporting Services" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;verticalAlign=top;fontStyle=1;fontSize=12;arcSize=5;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="800" y="360" width="640" height="700" as="geometry" />
+        </mxCell>
+
+        <!-- Azure OpenAI -->
+        <mxCell id="openai" value="Azure OpenAI Service&#xa;(Cognitive Services)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="830" y="400" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- AI Search -->
+        <mxCell id="ai-search" value="Azure AI Search&#xa;(Knowledge Retrieval)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="400" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Content Safety -->
+        <mxCell id="content-safety" value="Content Safety&#xa;(Input/Output Filtering)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="830" y="490" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Key Vault -->
+        <mxCell id="keyvault" value="Key Vault&#xa;kv-foundry-{env}&#xa;(Secrets &amp; Keys)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="490" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Storage Account -->
+        <mxCell id="storage" value="Storage Account&#xa;stfoundry{env}&#xa;(AI Data &amp; Artifacts)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="830" y="580" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Application Insights -->
+        <mxCell id="appinsights" value="Application Insights&#xa;(Monitoring &amp; Traces)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="580" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Log Analytics -->
+        <mxCell id="loganalytics" value="Log Analytics Workspace&#xa;(Centralized Logging)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="830" y="670" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Managed Identity -->
+        <mxCell id="managed-id" value="Managed Identities&#xa;(System &amp; User Assigned)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="670" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Future: Private Endpoints -->
+        <mxCell id="private-endpoints" value="Private Endpoints&#xa;(Future)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="830" y="760" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Future: VNet -->
+        <mxCell id="vnet" value="Virtual Network&#xa;(Future)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="760" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Terraform State -->
+        <mxCell id="state-rg" value="rg-foundry-state" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;verticalAlign=top;fontStyle=1;fontSize=11;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="830" y="860" width="430" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="state-storage" value="Terraform State Backend&#xa;(Storage Account + Container)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="860" y="885" width="370" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Connection from DevOps to Subscription -->
+        <mxCell id="devops-to-sub" style="edgeStyle=orthogonalEdgeStyle;strokeWidth=2;strokeColor=#9673a6;" edge="1" source="svc-principal" target="subscription" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Legend -->
+        <mxCell id="legend-title" value="Legend" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1300" y="80" width="60" height="20" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

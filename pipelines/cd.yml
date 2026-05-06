@@ -1,0 +1,157 @@
+# Azure AI Foundry - Infrastructure CD Pipeline
+# Triggered on merge to main - deploys through environments with gates
+
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - infra/**
+
+pr: none
+
+pool:
+  vmImage: "ubuntu-latest"
+
+variables:
+  - group: foundry-common
+
+stages:
+  # ============================================================
+  # DEV - Auto deploy on merge
+  # ============================================================
+  - stage: Plan_Dev
+    displayName: "Plan (Dev)"
+    jobs:
+      - job: Plan
+        displayName: "Terraform Plan - Dev"
+        steps:
+          - template: .templates/terraform-init.yml
+            parameters:
+              environment: "dev"
+              workingDirectory: "$(System.DefaultWorkingDirectory)/infra/environments/dev"
+              serviceConnection: "sc-foundry-dev"
+
+          - template: .templates/terraform-plan.yml
+            parameters:
+              environment: "dev"
+              workingDirectory: "$(System.DefaultWorkingDirectory)/infra/environments/dev"
+              serviceConnection: "sc-foundry-dev"
+
+  - stage: Deploy_Dev
+    displayName: "Deploy (Dev)"
+    dependsOn: Plan_Dev
+    jobs:
+      - deployment: Apply
+        displayName: "Terraform Apply - Dev"
+        environment: "foundry-dev"
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: self
+                - template: .templates/terraform-init.yml
+                  parameters:
+                    environment: "dev"
+                    workingDirectory: "$(System.DefaultWorkingDirectory)/infra/environments/dev"
+                    serviceConnection: "sc-foundry-dev"
+
+                - template: .templates/terraform-apply.yml
+                  parameters:
+                    environment: "dev"
+                    workingDirectory: "$(System.DefaultWorkingDirectory)/infra/environments/dev"
+                    serviceConnection: "sc-foundry-dev"
+
+  # ============================================================
+  # STAGING - Auto deploy after Dev success
+  # ============================================================
+  - stage: Plan_Staging
+    displayName: "Plan (Staging)"
+    dependsOn: Deploy_Dev
+    jobs:
+      - job: Plan
+        displayName: "Terraform Plan - Staging"
+        steps:
+          - template: .templates/terraform-init.yml
+            parameters:
+              environment: "staging"
+              workingDirectory: "$(System.DefaultWorkingDirectory)/infra/environments/staging"
+              serviceConnection: "sc-foundry-staging"
+
+          - template: .templates/terraform-plan.yml
+            parameters:
+              environment: "staging"
+              workingDirectory: "$(System.DefaultWorkingDirectory)/infra/environments/staging"
+              serviceConnection: "sc-foundry-staging"
+
+  - stage: Deploy_Staging
+    displayName: "Deploy (Staging)"
+    dependsOn: Plan_Staging
+    jobs:
+      - deployment: Apply
+        displayName: "Terraform Apply - Staging"
+        environment: "foundry-staging"
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: self
+                - template: .templates/terraform-init.yml
+                  parameters:
+                    environment: "staging"
+                    workingDirectory: "$(System.DefaultWorkingDirectory)/infra/environments/staging"
+                    serviceConnection: "sc-foundry-staging"
+
+                - template: .templates/terraform-apply.yml
+                  parameters:
+                    environment: "staging"
+                    workingDirectory: "$(System.DefaultWorkingDirectory)/infra/environments/staging"
+                    serviceConnection: "sc-foundry-staging"
+
+  # ============================================================
+  # PROD - Manual approval required
+  # ============================================================
+  - stage: Plan_Prod
+    displayName: "Plan (Prod)"
+    dependsOn: Deploy_Staging
+    jobs:
+      - job: Plan
+        displayName: "Terraform Plan - Prod"
+        steps:
+          - template: .templates/terraform-init.yml
+            parameters:
+              environment: "prod"
+              workingDirectory: "$(System.DefaultWorkingDirectory)/infra/environments/prod"
+              serviceConnection: "sc-foundry-prod"
+
+          - template: .templates/terraform-plan.yml
+            parameters:
+              environment: "prod"
+              workingDirectory: "$(System.DefaultWorkingDirectory)/infra/environments/prod"
+              serviceConnection: "sc-foundry-prod"
+
+  - stage: Deploy_Prod
+    displayName: "Deploy (Prod)"
+    dependsOn: Plan_Prod
+    jobs:
+      - deployment: Apply
+        displayName: "Terraform Apply - Prod"
+        # This environment must have an approval gate configured in Azure DevOps
+        environment: "foundry-prod"
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: self
+                - template: .templates/terraform-init.yml
+                  parameters:
+                    environment: "prod"
+                    workingDirectory: "$(System.DefaultWorkingDirectory)/infra/environments/prod"
+                    serviceConnection: "sc-foundry-prod"
+
+                - template: .templates/terraform-apply.yml
+                  parameters:
+                    environment: "prod"
+                    workingDirectory: "$(System.DefaultWorkingDirectory)/infra/environments/prod"
+                    serviceConnection: "sc-foundry-prod"

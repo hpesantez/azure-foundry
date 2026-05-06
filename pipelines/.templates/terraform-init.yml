@@ -1,0 +1,35 @@
+parameters:
+  - name: environment
+    type: string
+  - name: workingDirectory
+    type: string
+  - name: serviceConnection
+    type: string
+  - name: backendConfigFile
+    type: string
+    default: "backend.tfvars"
+
+steps:
+  - task: TerraformInstaller@1
+    displayName: "Install Terraform"
+    inputs:
+      terraformVersion: "latest"
+
+  - task: TerraformTaskV4@4
+    displayName: "Terraform Init (${{ parameters.environment }})"
+    inputs:
+      provider: "azurerm"
+      command: "init"
+      workingDirectory: "${{ parameters.workingDirectory }}"
+      backendServiceArm: "${{ parameters.serviceConnection }}"
+      backendAzureRmResourceGroupName: "rg-foundry-state"
+      backendAzureRmStorageAccountName: "stfoundrytfstate"
+      backendAzureRmContainerName: "tfstate"
+      backendAzureRmKey: "${{ parameters.environment }}.terraform.tfstate"
+
+  - task: TerraformTaskV4@4
+    displayName: "Terraform Validate"
+    inputs:
+      provider: "azurerm"
+      command: "validate"
+      workingDirectory: "${{ parameters.workingDirectory }}"

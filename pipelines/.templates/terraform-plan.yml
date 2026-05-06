@@ -1,0 +1,23 @@
+parameters:
+  - name: environment
+    type: string
+  - name: workingDirectory
+    type: string
+  - name: serviceConnection
+    type: string
+
+steps:
+  - task: TerraformTaskV4@4
+    displayName: "Terraform Plan (${{ parameters.environment }})"
+    inputs:
+      provider: "azurerm"
+      command: "plan"
+      workingDirectory: "${{ parameters.workingDirectory }}"
+      environmentServiceNameAzureRM: "${{ parameters.serviceConnection }}"
+      commandOptions: "-out=tfplan -var-file=terraform.tfvars"
+
+  - task: PublishPipelineArtifact@1
+    displayName: "Publish Plan Artifact"
+    inputs:
+      targetPath: "${{ parameters.workingDirectory }}/tfplan"
+      artifactName: "tfplan-${{ parameters.environment }}"

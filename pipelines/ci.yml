@@ -1,0 +1,60 @@
+# Azure AI Foundry - Infrastructure CI Pipeline
+# Triggered on PRs - validates and plans changes
+
+trigger: none
+
+pr:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - infra/**
+
+pool:
+  vmImage: "ubuntu-latest"
+
+variables:
+  - group: foundry-common
+
+stages:
+  - stage: Validate
+    displayName: "Validate Terraform"
+    jobs:
+      - job: Lint
+        displayName: "Format & Validate"
+        steps:
+          - task: TerraformInstaller@1
+            displayName: "Install Terraform"
+            inputs:
+              terraformVersion: "latest"
+
+          - script: |
+              cd infra
+              terraform fmt -check -recursive
+            displayName: "Check Formatting"
+
+          - template: .templates/terraform-init.yml
+            parameters:
+              environment: "dev"
+              workingDirectory: "$(System.DefaultWorkingDirectory)/infra/environments/dev"
+              serviceConnection: "sc-foundry-dev"
+
+  - stage: Plan_Dev
+    displayName: "Plan (Dev)"
+    dependsOn: Validate
+    jobs:
+      - job: Plan
+        displayName: "Terraform Plan - Dev"
+        steps:
+          - template: .templates/terraform-init.yml
+            parameters:
+              environment: "dev"
+              workingDirectory: "$(System.DefaultWorkingDirectory)/infra/environments/dev"
+              serviceConnection: "sc-foundry-dev"
+
+          - template: .templates/terraform-plan.yml
+            parameters:
+              environment: "dev"
+              workingDirectory: "$(System.DefaultWorkingDirectory)/infra/environments/dev"
+              serviceConnection: "sc-foundry-dev"
