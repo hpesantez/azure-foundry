@@ -8,6 +8,15 @@ parameters:
   - name: backendConfigFile
     type: string
     default: "backend.tfvars"
+  - name: backendResourceGroup
+    type: string
+    default: "$(TF_BACKEND_RESOURCE_GROUP)"
+  - name: backendStorageAccount
+    type: string
+    default: "$(TF_BACKEND_STORAGE_ACCOUNT)"
+  - name: backendContainer
+    type: string
+    default: "$(TF_BACKEND_CONTAINER)"
 
 steps:
   - script: |
@@ -36,13 +45,13 @@ steps:
       inlineScript: |
         set -euo pipefail
         STORAGE_KEY=$(az storage account keys list \
-          --resource-group rg-foundry-state \
-          --account-name stfoundrytfstate \
+          --resource-group ${{ parameters.backendResourceGroup }} \
+          --account-name ${{ parameters.backendStorageAccount }} \
           --query '[0].value' -o tsv)
         terraform init \
-          -backend-config="resource_group_name=rg-foundry-state" \
-          -backend-config="storage_account_name=stfoundrytfstate" \
-          -backend-config="container_name=tfstate" \
+          -backend-config="resource_group_name=${{ parameters.backendResourceGroup }}" \
+          -backend-config="storage_account_name=${{ parameters.backendStorageAccount }}" \
+          -backend-config="container_name=${{ parameters.backendContainer }}" \
           -backend-config="key=${{ parameters.environment }}.terraform.tfstate" \
           -backend-config="access_key=${STORAGE_KEY}"
 

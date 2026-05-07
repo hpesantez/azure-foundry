@@ -57,6 +57,9 @@ Terraform variables are passed via `TF_VAR_` environment variables from Azure De
 |----------|-------|---------|
 | `TF_VAR_project_name` | `foundry` | No |
 | `TF_VAR_location` | `eastus2` | No |
+| `TF_BACKEND_RESOURCE_GROUP` | `<your-backend-rg>` e.g. `rg-foundry-state` | No |
+| `TF_BACKEND_STORAGE_ACCOUNT` | `<your-backend-sa>` e.g. `stfoundrystate` | No |
+| `TF_BACKEND_CONTAINER` | `tfstate` | No |
 
 ### `foundry-dev`
 
