@@ -63,7 +63,7 @@ resource "azurerm_cognitive_account" "openai" {
   resource_group_name   = azurerm_resource_group.main.name
   kind                  = "OpenAI"
   sku_name              = "S0"
-  custom_subdomain_name = "oai-${var.project_name}-${var.environment}"
+  custom_subdomain_name = "oai-${var.project_name}-${var.environment}-${var.name_suffix}"
   tags                  = local.tags
 }
 
@@ -72,7 +72,7 @@ resource "azurerm_search_service" "main" {
   name                = "srch-${var.project_name}-${var.environment}-${var.name_suffix}"
   resource_group_name = azurerm_resource_group.main.name
   location            = azurerm_resource_group.main.location
-  sku                 = "free"
+  sku                 = "basic"
   tags                = local.tags
 }
 
