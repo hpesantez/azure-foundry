@@ -71,7 +71,7 @@ resource "azurerm_cognitive_account" "openai" {
 resource "azurerm_search_service" "main" {
   name                = "srch-${var.project_name}-${var.environment}-${var.name_suffix}"
   resource_group_name = azurerm_resource_group.main.name
-  location            = azurerm_resource_group.main.location
+  location            = var.search_location
   sku                 = "basic"
   tags                = local.tags
 }

@@ -32,3 +32,9 @@ variable "name_suffix" {
   type        = string
   default     = "baa8"
 }
+
+variable "search_location" {
+  description = "Azure region for AI Search (may differ from main location due to capacity constraints)"
+  type        = string
+  default     = "eastus"
+}
