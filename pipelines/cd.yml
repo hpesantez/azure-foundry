@@ -83,13 +83,13 @@ stages:
             parameters:
               environment: "staging"
               workingDirectory: "$(System.DefaultWorkingDirectory)/infra/environments/staging"
-              serviceConnection: "sp-foundry-staging"
+              serviceConnection: "sp-foundry-dev"  # Needs to change to staging SP with access to staging subscription
 
           - template: .templates/terraform-plan.yml
             parameters:
               environment: "staging"
               workingDirectory: "$(System.DefaultWorkingDirectory)/infra/environments/staging"
-              serviceConnection: "sp-foundry-staging"
+              serviceConnection: "sp-foundry-dev"  # Needs to change to staging SP with access to staging subscription
 
   - stage: Deploy_Staging
     displayName: "Deploy (Staging)"
@@ -109,13 +109,13 @@ stages:
                   parameters:
                     environment: "staging"
                     workingDirectory: "$(System.DefaultWorkingDirectory)/infra/environments/staging"
-                    serviceConnection: "sp-foundry-staging"
+                    serviceConnection: "sp-foundry-dev"  # Needs to change to staging SP with access to staging subscription
 
                 - template: .templates/terraform-apply.yml
                   parameters:
                     environment: "staging"
                     workingDirectory: "$(System.DefaultWorkingDirectory)/infra/environments/staging"
-                    serviceConnection: "sp-foundry-staging"
+                    serviceConnection: "sp-foundry-dev"  # Needs to change to staging SP with access to staging subscription
 
   # ============================================================
   # PROD - Manual approval required
@@ -133,13 +133,13 @@ stages:
             parameters:
               environment: "prod"
               workingDirectory: "$(System.DefaultWorkingDirectory)/infra/environments/prod"
-              serviceConnection: "sp-foundry-prod"
+              serviceConnection: "sp-foundry-dev"  # Needs to change to prod SP with access to prod subscription
 
           - template: .templates/terraform-plan.yml
             parameters:
               environment: "prod"
               workingDirectory: "$(System.DefaultWorkingDirectory)/infra/environments/prod"
-              serviceConnection: "sp-foundry-prod"
+              serviceConnection: "sp-foundry-dev"  # Needs to change to prod SP with access to prod subscription
 
   - stage: Deploy_Prod
     displayName: "Deploy (Prod)"
@@ -160,10 +160,10 @@ stages:
                   parameters:
                     environment: "prod"
                     workingDirectory: "$(System.DefaultWorkingDirectory)/infra/environments/prod"
-                    serviceConnection: "sp-foundry-prod"
+                    serviceConnection: "sp-foundry-dev"  # Needs to change to prod SP with access to prod subscription
 
                 - template: .templates/terraform-apply.yml
                   parameters:
                     environment: "prod"
                     workingDirectory: "$(System.DefaultWorkingDirectory)/infra/environments/prod"
-                    serviceConnection: "sp-foundry-prod"
+                    serviceConnection: "sp-foundry-dev"  # Needs to change to prod SP with access to prod subscription
