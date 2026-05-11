@@ -26,3 +26,9 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "name_suffix" {
+  description = "Short unique suffix appended to globally-unique resource names (Key Vault, Storage Account)"
+  type        = string
+  default     = "baa8"
+}
